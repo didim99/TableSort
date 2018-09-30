@@ -1,10 +1,8 @@
 package ru.tstu.sapr.tablesort.ui;
 
-import ru.tstu.sapr.tablesort.core.AppEvent;
-import ru.tstu.sapr.tablesort.core.AppEventListener;
-import ru.tstu.sapr.tablesort.core.LogWriter;
-
 import javax.swing.*;
+import java.util.ArrayList;
+import ru.tstu.sapr.tablesort.core.*;
 
 public class MainWindow extends JFrame implements LogWriter {
   //Application level
@@ -12,8 +10,10 @@ public class MainWindow extends JFrame implements LogWriter {
   //UI components
   private JPanel rootPanel;
   private JTextArea logArea;
-  private JButton generateButton;
-  private JButton startButton;
+  private JButton btnGenerate;
+  private JButton btnTest;
+  private JButton btnTestAll;
+  private JComboBox<String> selMethod;
   private JTable tArrayData;
   private JTable tInfo;
 
@@ -34,13 +34,25 @@ public class MainWindow extends JFrame implements LogWriter {
   }
 
   private void initComponents() {
-    generateButton.addActionListener(e ->
+    for (String method : Model.SORT_METHODS_NAMES)
+      selMethod.addItem(method);
+    btnGenerate.addActionListener(e ->
       listener.onAppEvent(AppEvent.GENERATE_DATA));
-    startButton.addActionListener(e ->
-      listener.onAppEvent(AppEvent.PROCESS_DATA));
+    btnTest.addActionListener(e ->
+      listener.onAppEvent(AppEvent.TEST_METHOD));
+    btnTestAll.addActionListener(e ->
+      listener.onAppEvent(AppEvent.TEST_ALL));
+  }
+
+  public int getSortMethod() {
+    return selMethod.getSelectedIndex();
   }
 
   public void updateDataSet(int[] data) {
+
+  }
+
+  public void updateList(ArrayList<SortResult> results) {
 
   }
 }

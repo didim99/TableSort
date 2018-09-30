@@ -19,7 +19,13 @@ public class Application implements AppEventListener {
       case GENERATE_DATA:
         mainWindow.updateDataSet(model.generateData());
         break;
-      case PROCESS_DATA:
+      case TEST_METHOD:
+        model.testMethod(mainWindow.getSortMethod());
+        mainWindow.updateDataSet(model.getData());
+        break;
+      case TEST_ALL:
+        mainWindow.updateList(model.testAll());
+        mainWindow.updateDataSet(model.getData());
         break;
     }
   }
