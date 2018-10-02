@@ -1,26 +1,27 @@
 package ru.tstu.sapr.tablesort.core.sorter;
 
 /* by makcimbx */
-public class HeapSorter {
-  private static int heapSize;
+public class HeapSorter extends Sorter {
+  private int heapSize;
 
-  public static void sort(int[] a) {
-    buildHeap(a);
+  @Override
+  void sortInternal(int[] array) {
+    buildHeap(array);
     while (heapSize > 1) {
-      swap(a, 0, heapSize - 1);
+      swap(array, 0, heapSize - 1);
       heapSize--;
-      heapify(a, 0);
+      heapify(array, 0);
     }
   }
 
-  private static void buildHeap(int[] a) {
+  private void buildHeap(int[] a) {
     heapSize = a.length;
     for (int i = a.length / 2; i >= 0; i--) {
       heapify(a, i);
     }
   }
 
-  private static void heapify(int[] a, int i) {
+  private void heapify(int[] a, int i) {
     int l = left(i);
     int r = right(i);
     int largest = i;

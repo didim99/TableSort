@@ -2,19 +2,23 @@ package ru.tstu.sapr.tablesort.core;
 
 import java.util.ArrayList;
 import java.util.Random;
-import ru.tstu.sapr.tablesort.core.sorter.HeapSorter;
-import ru.tstu.sapr.tablesort.core.sorter.QuickSorter;
+import ru.tstu.sapr.tablesort.core.sorter.*;
 
 public class Model {
   public static final String[] SORT_METHODS_NAMES = {
-    "Quick sort", "Smooth sort", "Shell sort", "Heap sort"
+    "Quick sort", "Cocktail sort", "Shell sort", "Heap sort",
+    "Radix sort"
   };
 
   static final class Method {
-    static final int QUICK_SORT  = 0; // by keliz
-    static final int SMOOTH_SORT = 1; // by Medvedev
-    static final int SHELL_SORT  = 2; // by Makarov
-    static final int HEAP_SORT   = 3; // by makcimbx
+    static final int QUICK_SORT     = 0; // by keliz
+    static final int COCKTAIL_SORT  = 1; // by Medvedev
+    static final int SHELL_SORT     = 2; // by Makarov
+    static final int HEAP_SORT      = 3; // by makcimbx
+    static final int RADIX_SORT     = 4; // by IonShieldQuad
+    static final int GNOME_SORT     = 5; // by MagLoner
+    static final int INSERTION_SORT = 6; // by link
+    static final int BLOCK_SORT     = 7; // by Erkhova
   }
 
   private static final int DEFAULT_DATA_SIZE = 100;
@@ -60,22 +64,30 @@ public class Model {
 
   SortResult testMethod(int methodIndex) {
     logWriter.writeMessage("Sorting data by: " + SORT_METHODS_NAMES[methodIndex]);
-    timer.start();
 
+    Sorter sorter = null;
     switch (methodIndex) {
       case Method.QUICK_SORT:
-        QuickSorter.sort(data);
+        sorter = new QuickSorter();
         break;
-      case Method.SMOOTH_SORT:
+      case Method.COCKTAIL_SORT:
         break;
       case Method.SHELL_SORT:
         break;
       case Method.HEAP_SORT:
-        HeapSorter.sort(data);
+        sorter = new HeapSorter();
         break;
+      case Method.RADIX_SORT:
+        sorter = new RadixSorter();
+        break;
+      default:
+        throw new IllegalArgumentException("Unknown sort method");
     }
 
+    timer.start();
+    data = sorter.sort(data);
     timer.stop();
+
     logWriter.writeMessage(String.format("Data sorted: %d us", timer.getMicros()));
     return new SortResult(methodIndex, timer.getMicros());
   }

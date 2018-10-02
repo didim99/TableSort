@@ -1,9 +1,10 @@
 package ru.tstu.sapr.tablesort.core.sorter;
 
 /* by keliz */
-public class QuickSorter {
+public class QuickSorter extends Sorter {
 
-  public static void sort(int[] array) {
+  @Override
+  void sortInternal(int[] array) {
     sort(array, 0, array.length - 1);
   }
 

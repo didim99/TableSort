@@ -3,13 +3,12 @@ package ru.tstu.sapr.tablesort.core;
 import ru.tstu.sapr.tablesort.ui.MainWindow;
 
 public class Application implements AppEventListener {
-  private LogWriter globalLogWriter;
   private MainWindow mainWindow;
   private Model model;
 
   private Application() {
     mainWindow = new MainWindow(this);
-    globalLogWriter = mainWindow;
+    LogWriter globalLogWriter = mainWindow;
     model = new Model(globalLogWriter);
   }
 
