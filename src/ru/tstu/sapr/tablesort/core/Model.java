@@ -17,10 +17,10 @@ public class Model {
     static final int HEAP_SORT      = 3; // by makcimbx
     static final int RADIX_SORT     = 4; // by IonShieldQuad
     static final int GNOME_SORT     = 5; // by MagLoner
-    static final int INSERTION_SORT = 6; // by link
+    static final int INSERTION_SORT = 6; // by Eremin
     static final int BLOCK_SORT     = 7; // by Erkhova
   }
-
+  
   private static final int DEFAULT_DATA_SIZE = 100;
 
   private LogWriter logWriter;
