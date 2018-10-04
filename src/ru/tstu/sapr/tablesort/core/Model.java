@@ -71,8 +71,10 @@ public class Model {
         sorter = new QuickSorter();
         break;
       case Method.COCKTAIL_SORT:
+        sorter = new CocktailSorter();
         break;
       case Method.SHELL_SORT:
+        sorter = new ShellSorter();
         break;
       case Method.HEAP_SORT:
         sorter = new HeapSorter();
@@ -80,6 +82,12 @@ public class Model {
       case Method.RADIX_SORT:
         sorter = new RadixSorter();
         break;
+      /*case Method.GNOME_SORT:
+        break;
+      case Method.INSERTION_SORT:
+        break;
+      case Method.BLOCK_SORT:
+        break;*/
       default:
         throw new IllegalArgumentException("Unknown sort method");
     }
