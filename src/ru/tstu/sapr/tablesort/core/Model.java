@@ -56,8 +56,8 @@ public class Model {
     logWriter.writeMessage("Testing all sort methods");
 
     for (int method = 0; method < SORT_METHODS_NAMES.length; method++) {
-      results.add(testMethod(method));
       generateData();
+      results.add(testMethod(method));
     }
 
     logWriter.writeMessage("Test completed");
