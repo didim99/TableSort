@@ -6,8 +6,9 @@ import ru.tstu.sapr.tablesort.core.sorter.*;
 
 public class Model {
   public static final String[] SORT_METHODS_NAMES = {
-    "Quick sort", "Cocktail sort", "Shell sort", "Heap sort",
-    "Radix sort"
+    "Quick sort", "Cocktail sort", "Shell sort",
+    "Heap sort", "Radix sort"/*, "Gnome sort",
+     "Insertion sort", "Block sort", "Comb sort"*/
   };
 
   static final class Method {
@@ -19,6 +20,7 @@ public class Model {
     static final int GNOME_SORT     = 5; // by MagLoner
     static final int INSERTION_SORT = 6; // by Eremin
     static final int BLOCK_SORT     = 7; // by Erkhova
+    static final int COMB_SORT      = 8; // by Merkulov
   }
   
   private static final int DEFAULT_DATA_SIZE = 100;
