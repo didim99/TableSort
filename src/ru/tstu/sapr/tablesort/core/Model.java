@@ -7,8 +7,8 @@ import ru.tstu.sapr.tablesort.core.sorter.*;
 public class Model {
   public static final String[] SORT_METHODS_NAMES = {
     "Quick sort", "Cocktail sort", "Shell sort",
-    "Heap sort", "Radix sort"/*, "Gnome sort",
-     "Insertion sort", "Block sort", "Comb sort"*/
+    "Heap sort", "Radix sort", "Gnome sort"/*,
+    "Insertion sort", "Block sort", "Comb sort"*/
   };
 
   static final class Method {
@@ -84,9 +84,10 @@ public class Model {
       case Method.RADIX_SORT:
         sorter = new RadixSorter();
         break;
-      /*case Method.GNOME_SORT:
+      case Method.GNOME_SORT:
+        sorter = new GnomeSorter();
         break;
-      case Method.INSERTION_SORT:
+      /*case Method.INSERTION_SORT:
         break;
       case Method.BLOCK_SORT:
         break;*/
