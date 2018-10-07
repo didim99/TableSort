@@ -21,10 +21,8 @@ public class MainWindow extends JFrame implements LogWriter {
   private JTable tInfo;
 
   private static final String WINDOW_TITLE = "Sorting algorithms";
-  private static final String[] COLUMN_NAMES = {"Sorting method", "Time (us)"};
+  private static final String[] COLUMN_NAMES = { "Sorting method", "Time (us)" };
   private static final int ARRAY_SIDE_LENGTH = 10;
-  private static final int DATA_MIN = 0;
-  private static final int DATA_MAX = 1000;
 
   public MainWindow(AppEventListener listener) {
     this.listener = listener;
@@ -68,7 +66,7 @@ public class MainWindow extends JFrame implements LogWriter {
     });
 
     //Sets renderer for array data table
-    TableCellRenderer r = new CustomTableCellRenderer(DATA_MIN, DATA_MAX);
+    TableCellRenderer r = new CustomTableCellRenderer(Model.DATA_MIN, Model.DATA_MAX);
     tArrayData.setDefaultRenderer(Object.class, r);
     
     //Sets model for info table

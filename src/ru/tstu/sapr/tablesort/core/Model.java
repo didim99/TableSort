@@ -5,13 +5,17 @@ import java.util.Random;
 import ru.tstu.sapr.tablesort.core.sorter.*;
 
 public class Model {
+  private static final int DATA_SIZE = 100;
+  public static final int DATA_MIN = 0;
+  public static final int DATA_MAX = DATA_SIZE * 10;
+
   public static final String[] SORT_METHODS_NAMES = {
     "Quick sort", "Cocktail sort", "Shell sort",
     "Heap sort", "Radix sort", "Gnome sort"/*,
     "Insertion sort", "Block sort", "Comb sort"*/
   };
 
-  static final class Method {
+  private static final class Method {
     static final int QUICK_SORT     = 0; // by keliz
     static final int COCKTAIL_SORT  = 1; // by Medvedev
     static final int SHELL_SORT     = 2; // by Makarov
@@ -22,8 +26,6 @@ public class Model {
     static final int BLOCK_SORT     = 7; // by Erkhova
     static final int COMB_SORT      = 8; // by Merkulov
   }
-  
-  private static final int DEFAULT_DATA_SIZE = 100;
 
   private LogWriter logWriter;
   private Timer timer;
@@ -32,7 +34,7 @@ public class Model {
   Model(LogWriter logWriter) {
     this.timer = new Timer();
     this.logWriter = logWriter;
-    data = new int[DEFAULT_DATA_SIZE];
+    data = new int[DATA_SIZE];
   }
 
   int[] getData() {
@@ -41,11 +43,10 @@ public class Model {
 
   int[] generateData() {
     logWriter.writeMessage("Generating new data set...");
-    int maxValue = data.length * 10 + 1;
     Random random = new Random();
 
     for (int i = 0; i < data.length; i++)
-      data[i] = random.nextInt(maxValue);
+      data[i] = random.nextInt(DATA_MAX + 1);
 
     logWriter.writeMessage("Data set generated");
     return data;
@@ -87,10 +88,12 @@ public class Model {
       case Method.GNOME_SORT:
         sorter = new GnomeSorter();
         break;
-      /*case Method.INSERTION_SORT:
+      case Method.INSERTION_SORT:
         break;
       case Method.BLOCK_SORT:
-        break;*/
+        break;
+      case Method.COMB_SORT:
+        break;
       default:
         throw new IllegalArgumentException("Unknown sort method");
     }
