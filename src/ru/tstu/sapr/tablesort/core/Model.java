@@ -11,8 +11,8 @@ public class Model {
 
   public static final String[] SORT_METHODS_NAMES = {
     "Quick sort", "Cocktail sort", "Shell sort",
-    "Heap sort", "Radix sort", "Gnome sort"/*,
-    "Insertion sort", "Block sort", "Comb sort"*/
+    "Heap sort", "Radix sort", "Gnome sort",
+    "Selection sort", "Insertion sort", "Bucket sort"
   };
 
   private static final class Method {
@@ -22,9 +22,9 @@ public class Model {
     static final int HEAP_SORT      = 3; // by makcimbx
     static final int RADIX_SORT     = 4; // by IonShieldQuad
     static final int GNOME_SORT     = 5; // by MagLoner
-    static final int INSERTION_SORT = 6; // by Eremin
-    static final int BLOCK_SORT     = 7; // by Erkhova
-    static final int COMB_SORT      = 8; // by Merkulov
+    static final int SELECTION_SORT = 6; // by Merkulov
+    static final int INSERTION_SORT = 7; // by Eremin
+    static final int BUCKET_SORT    = 8; // by Erkhova
   }
 
   private LogWriter logWriter;
@@ -68,7 +68,7 @@ public class Model {
   SortResult testMethod(int methodIndex) {
     logWriter.writeMessage("Sorting data by: " + SORT_METHODS_NAMES[methodIndex]);
 
-    Sorter sorter = null;
+    Sorter sorter;
     switch (methodIndex) {
       case Method.QUICK_SORT:
         sorter = new QuickSorter();
@@ -88,11 +88,14 @@ public class Model {
       case Method.GNOME_SORT:
         sorter = new GnomeSorter();
         break;
+      case Method.SELECTION_SORT:
+        sorter = new SelectionSorter();
+        break;
       case Method.INSERTION_SORT:
+        sorter = new InsertionSorter();
         break;
-      case Method.BLOCK_SORT:
-        break;
-      case Method.COMB_SORT:
+      case Method.BUCKET_SORT:
+        sorter = new BucketSorter();
         break;
       default:
         throw new IllegalArgumentException("Unknown sort method");
@@ -102,7 +105,7 @@ public class Model {
     data = sorter.sort(data);
     timer.stop();
 
-    logWriter.writeMessage(String.format("Data sorted: %d us", timer.getMicros()));
+    logWriter.writeMessage(String.format("Data sorted in %d us", timer.getMicros()));
     return new SortResult(methodIndex, timer.getMicros());
   }
 }
