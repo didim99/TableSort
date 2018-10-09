@@ -51,11 +51,11 @@ public class MainWindow extends JFrame implements LogWriter {
     for (String method : Model.SORT_METHODS_NAMES)
       selMethod.addItem(method);
     btnGenerate.addActionListener(e ->
-      listener.onAppEvent(AppEvent.GENERATE_DATA));
+      listener.onAppEvent(Application.Event.GENERATE_DATA));
     btnTest.addActionListener(e ->
-      listener.onAppEvent(AppEvent.TEST_METHOD));
+      listener.onAppEvent(Application.Event.TEST_METHOD));
     btnTestAll.addActionListener(e ->
-      listener.onAppEvent(AppEvent.TEST_ALL));
+      listener.onAppEvent(Application.Event.TEST_ALL));
 
     //Sets model for array data table
     tArrayData.setModel(new DefaultTableModel(ARRAY_SIDE_LENGTH, ARRAY_SIDE_LENGTH) {

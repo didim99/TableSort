@@ -1,5 +1,5 @@
 package ru.tstu.sapr.tablesort.core;
 
 public interface AppEventListener {
-  void onAppEvent(AppEvent event);
+  void onAppEvent(Application.Event event);
 }

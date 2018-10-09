@@ -3,6 +3,8 @@ package ru.tstu.sapr.tablesort.core;
 import ru.tstu.sapr.tablesort.ui.MainWindow;
 
 public class Application implements AppEventListener {
+  public enum Event { GENERATE_DATA, TEST_METHOD, TEST_ALL }
+
   private MainWindow mainWindow;
   private Model model;
 
@@ -13,7 +15,7 @@ public class Application implements AppEventListener {
   }
 
   @Override
-  public void onAppEvent(AppEvent event) {
+  public void onAppEvent(Event event) {
     switch (event) {
       case GENERATE_DATA:
         mainWindow.updateDataSet(model.generateData());
