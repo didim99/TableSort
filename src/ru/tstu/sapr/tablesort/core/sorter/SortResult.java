@@ -1,6 +1,6 @@
-package ru.tstu.sapr.tablesort.core;
+package ru.tstu.sapr.tablesort.core.sorter;
 
-public class SortResult {
+public class SortResult implements Comparable<SortResult> {
   private int methodIndex;
   private long time;
 
@@ -15,5 +15,10 @@ public class SortResult {
 
   public long getTime() {
     return time;
+  }
+
+  @Override
+  public int compareTo(SortResult o) {
+    return Long.compare(time, o.time);
   }
 }

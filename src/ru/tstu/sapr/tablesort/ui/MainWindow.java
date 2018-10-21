@@ -5,7 +5,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 import java.util.ArrayList;
+import java.util.Collections;
 import ru.tstu.sapr.tablesort.core.*;
+import ru.tstu.sapr.tablesort.core.sorter.SortResult;
 
 public class MainWindow extends JFrame implements LogWriter {
   //Application level
@@ -19,10 +21,13 @@ public class MainWindow extends JFrame implements LogWriter {
   private JComboBox<String> selMethod;
   private JTable tArrayData;
   private JTable tInfo;
+  private JProgressBar pbMain;
 
-  private static final String WINDOW_TITLE = "Sorting algorithms";
-  private static final String[] COLUMN_NAMES = { "Sorting method", "Time (us)" };
   private static final int ARRAY_SIDE_LENGTH = 10;
+  private static final int ARRAY_SIZE = ARRAY_SIDE_LENGTH * ARRAY_SIDE_LENGTH;
+  private static final String[] COLUMN_NAMES = { "Sorting method", "Time (ms)" };
+  private static final String WINDOW_TITLE = "Sorting algorithms";
+  private static final String TESTING = "Testing...";
 
   public MainWindow(AppEventListener listener) {
     this.listener = listener;
@@ -42,13 +47,13 @@ public class MainWindow extends JFrame implements LogWriter {
   }
 
   @Override
-  public void writeMessage(String msg) {
+  public synchronized void writeMessage(String msg) {
     logArea.append(msg);
     logArea.append("\n");
   }
 
   private void initComponents() {
-    for (String method : Model.SORT_METHODS_NAMES)
+    for (String method : Model.SORT_METHOD_NAMES)
       selMethod.addItem(method);
     btnGenerate.addActionListener(e ->
       listener.onAppEvent(Application.Event.GENERATE_DATA));
@@ -56,6 +61,7 @@ public class MainWindow extends JFrame implements LogWriter {
       listener.onAppEvent(Application.Event.TEST_METHOD));
     btnTestAll.addActionListener(e ->
       listener.onAppEvent(Application.Event.TEST_ALL));
+    pbMain.setString(TESTING);
 
     //Sets model for array data table
     tArrayData.setModel(new DefaultTableModel(ARRAY_SIDE_LENGTH, ARRAY_SIDE_LENGTH) {
@@ -70,12 +76,21 @@ public class MainWindow extends JFrame implements LogWriter {
     tArrayData.setDefaultRenderer(Object.class, r);
     
     //Sets model for info table
-    tInfo.setModel(new DefaultTableModel(COLUMN_NAMES, Model.SORT_METHODS_NAMES.length) {
+    tInfo.setModel(new DefaultTableModel(COLUMN_NAMES, Model.SORT_METHOD_NAMES.length) {
       @Override
       public boolean isCellEditable(int row, int column) {
         return false;
       }
     });
+  }
+
+  public void uiLock(boolean state) {
+    selMethod.setEnabled(!state);
+    btnGenerate.setEnabled(!state);
+    btnTestAll.setEnabled(!state);
+    btnTest.setEnabled(!state);
+    pbMain.setStringPainted(state);
+    pbMain.setIndeterminate(state);
   }
 
   public int getSortMethod() {
@@ -85,15 +100,17 @@ public class MainWindow extends JFrame implements LogWriter {
   public void updateDataSet(int[] data) {
     int cols = tArrayData.getModel().getColumnCount();
     TableModel model = tArrayData.getModel();
-    for (int i = 0; i < data.length; ++i)
-      model.setValueAt(data[i], i / cols, i % cols);
+    int step = data.length / ARRAY_SIZE;
+    for (int i = 0; i < ARRAY_SIZE; i++)
+      model.setValueAt(data[i * step], i / cols, i % cols);
   }
 
   public void updateList(ArrayList<SortResult> results) {
+    Collections.sort(results);
     TableModel model = tInfo.getModel();
     for (int i = 0; i < results.size(); ++i) {
       SortResult result = results.get(i);
-      model.setValueAt(Model.SORT_METHODS_NAMES[result.getMethodIndex()], i, 0);
+      model.setValueAt(Model.SORT_METHOD_NAMES[result.getMethodIndex()], i, 0);
       model.setValueAt(result.getTime(), i, 1);
     }
   }
