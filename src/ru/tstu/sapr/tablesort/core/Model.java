@@ -5,7 +5,7 @@ import java.util.Random;
 import ru.tstu.sapr.tablesort.core.sorter.*;
 
 public class Model implements SorterThread.EventListener {
-  private static final int DATA_SIZE = 100000;
+  private static final int DATA_SIZE = 200000;
   public static final int DATA_MIN = 0;
   public static final int DATA_MAX = DATA_SIZE * 10;
 
