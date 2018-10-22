@@ -1,7 +1,7 @@
 package ru.tstu.sapr.tablesort.core.sorter;
 
 /* by makcimbx */
-public class HeapSorter extends Sorter {
+class HeapSorter extends Sorter {
   private int heapSize;
 
   @Override

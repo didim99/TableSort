@@ -1,7 +1,7 @@
 package ru.tstu.sapr.tablesort.core.sorter;
 
 /* by Makarov */
-public class ShellSorter extends Sorter {
+class ShellSorter extends Sorter {
 
   @Override
   void sortInternal(int[] array) {

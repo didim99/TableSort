@@ -1,7 +1,7 @@
 package ru.tstu.sapr.tablesort.core.sorter;
 
 /* by MagLoner */
-public class GnomeSorter extends Sorter {
+class GnomeSorter extends Sorter {
 
   @Override
   void sortInternal(int[] array) {

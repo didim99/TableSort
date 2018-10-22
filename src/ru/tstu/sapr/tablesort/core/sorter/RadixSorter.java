@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-public class RadixSorter extends Sorter {
+class RadixSorter extends Sorter {
 
   @Override
   public void sortInternal(int[] array) {
