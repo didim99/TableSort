@@ -5,9 +5,8 @@ import java.util.Random;
 import ru.tstu.sapr.tablesort.core.sorter.*;
 
 public class Model implements SorterThread.EventListener {
-  private static final int DATA_SIZE = 200000;
-  public static final int DATA_MIN = 0;
-  public static final int DATA_MAX = DATA_SIZE * 10;
+  private static final int DEFAULT_DATA_SIZE = 200000;
+  private static final int DATA_MAX_FACTOR = 10;
 
   public static final String[] SORT_METHOD_NAMES = {
     "Quick sort", "Cocktail sort", "Shell sort",
@@ -30,53 +29,30 @@ public class Model implements SorterThread.EventListener {
   private LogWriter logWriter;
   private AppEventListener listener;
   private ArrayList<SortResult> result;
+  private int dataSize, maxValue;
   private int threadCount;
-  private int[] data;
 
   Model(LogWriter logWriter, AppEventListener listener) {
     this.logWriter = logWriter;
     this.listener = listener;
     this.result = new ArrayList<>();
+    updateDataSize(DEFAULT_DATA_SIZE);
     threadCount = 0;
   }
 
   @Override
   public void onFinished(int[] data, SortResult result) {
     this.result.add(result);
-    this.data = data;
-
     logWriter.writeMessage(String.format("Completed in: %d ms [%s]",
       result.getTime(), SORT_METHOD_NAMES[result.getMethodIndex()]));
-
     if (--threadCount == 0)
-      listener.onAppEvent(Application.Event.TEST_ALL_FINISHED);
-    else if (threadCount == -1)
       listener.onAppEvent(Application.Event.TEST_FINISHED);
-  }
-
-  int[] generateData() {
-    int[] data = new int[DATA_SIZE];
-    Random random = new Random();
-    for (int i = 0; i < data.length; i++)
-      data[i] = random.nextInt(DATA_MAX + 1);
-    this.data = data;
-    return data;
-  }
-
-  void testMethod(int sortMethod) {
-    result.clear();
-    threadCount = 0;
-    logWriter.writeMessage(
-      "Testing method: " + SORT_METHOD_NAMES[sortMethod]);
-    listener.onAppEvent(Application.Event.DATA_GENERATED);
-    new SorterThread(this,
-      sortMethod, data).start();
   }
 
   void testAll() {
     logWriter.writeMessage("Testing all sort methods");
-
     result.clear();
+
     threadCount = SORT_METHOD_NAMES.length;
     for (int method = 0; method < SORT_METHOD_NAMES.length; method++) {
       logWriter.writeMessage("Starting thread: "
@@ -85,11 +61,24 @@ public class Model implements SorterThread.EventListener {
     }
   }
 
+  private int[] generateData() {
+    int[] data = new int[dataSize];
+    Random random = new Random();
+    for (int i = 0; i < data.length; i++)
+      data[i] = random.nextInt(maxValue + 1);
+    return data;
+  }
+
   ArrayList<SortResult> getResult() {
     return result;
   }
 
-  int[] getData() {
-    return data;
+  void updateDataSize(int newSize) {
+    this.dataSize = newSize;
+    this.maxValue = dataSize * DATA_MAX_FACTOR;
+  }
+
+  int getDataSize() {
+    return dataSize;
   }
 }
